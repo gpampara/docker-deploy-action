@@ -1,0 +1,85 @@
+name: "Docker Deploy Action"
+description: "Uploads Docker Compose/Stack files and deploys via SSH"
+author: 'alcharra'
+branding:
+  icon: "upload-cloud"
+  color: "blue"
+
+inputs:
+  ssh_host:
+    description: "Target server hostname or IP"
+    required: true
+  ssh_port:
+    description: "SSH port"
+    required: false
+    default: "22"
+  ssh_user:
+    description: "SSH username"
+    required: true
+  ssh_key:
+    description: "SSH private key"
+    required: true
+  project_path:
+    description: "Remote directory on server where files should be uploaded"
+    required: true
+  compose_files:
+    description: "Comma-separated list of files for Docker Compose (for standalone mode)"
+    required: false
+    default: "docker-compose.yml"
+  stack_files:
+    description: "Comma-separated list of files for Docker Swarm (for stack mode)"
+    required: false
+    default: "docker-stack.yml"
+  extra_files:
+    description: "Additional files to upload (like .env, traefik.yml)"
+    required: false
+  mode:
+    description: "Deployment mode (compose or stack)"
+    required: false
+    default: "compose"
+  stack_name:
+    description: "Swarm stack name (required if mode is 'stack')"
+    required: false
+  docker_network:
+    description: "Name of a Docker network required for the deployment (optional — created if missing)"
+    required: false
+  docker_network_driver:
+    description: "Driver for the Docker network (bridge, overlay, macvlan, etc.)"
+    required: false
+  docker_prune:
+    description: "Optional prune type: system, volumes, networks, images, containers, none"
+    required: false
+    default: "none"
+  registry_host:
+    description: "Registry Authentication Host"
+    required: true
+  registry_user:
+    description: "Registry Authentication User"
+    required: true
+  registry_pass:
+    description: "Registry Authentication Pass"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run deployment script
+      shell: bash
+      run: ${{ github.action_path }}/entrypoint.sh
+      env:
+        SSH_HOST: ${{ inputs.ssh_host }}
+        SSH_PORT: ${{ inputs.ssh_port }}
+        SSH_USER: ${{ inputs.ssh_user }}
+        SSH_KEY: ${{ inputs.ssh_key }}
+        PROJECT_PATH: ${{ inputs.project_path }}
+        COMPOSE_FILES: ${{ inputs.compose_files }}
+        STACK_FILES: ${{ inputs.stack_files }}
+        EXTRA_FILES: ${{ inputs.extra_files }}
+        DOCKER_PRUNE: ${{ inputs.docker_prune }}
+        MODE: ${{ inputs.mode }}
+        STACK_NAME: ${{ inputs.stack_name }}
+        DOCKER_NETWORK: ${{ inputs.docker_network }}
+        DOCKER_NETWORK_DRIVER: ${{ inputs.docker_network_driver }}
+        REGISTRY_HOST: ${{ inputs.registry_host }}
+        REGISTRY_USER: ${{ inputs.registry_user }}
+        REGISTRY_PASS: ${{ inputs.registry_pass }}
