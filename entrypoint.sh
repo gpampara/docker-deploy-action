@@ -38,7 +38,7 @@ done
 # Ensure project path exists
 echo "📂 Checking if project path exists on remote server: $PROJECT_PATH"
 
-ssh -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" <<EOF
+ssh -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -p "$SSH_PORT" -T "$SSH_USER@$SSH_HOST" <<EOF
 if [ ! -d "$PROJECT_PATH" ]; then
     echo '📁 Project path not found - creating it...'
     sudo mkdir -p "$PROJECT_PATH"
@@ -65,7 +65,7 @@ scp -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -P "$SSH_PORT" "${ALL_FILE
 echo "🔗 Connecting to $SSH_USER@$SSH_HOST to deploy..."
 
 # Connect to remote server to deploy
-ssh -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" <<EOF
+ssh -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -p "$SSH_PORT" -T "$SSH_USER@$SSH_HOST" <<EOF
 set -e
 
 echo "✅ Connected to $SSH_HOST"
