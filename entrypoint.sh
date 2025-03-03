@@ -60,7 +60,7 @@ EOF
 # Upload all files
 echo "📂 Uploading files to $SSH_USER@$SSH_HOST:$PROJECT_PATH"
 
-scp -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no "${ALL_FILES[@]}" -p "$SSH_PORT" "$SSH_USER@$SSH_HOST:$PROJECT_PATH/"
+scp -i "$DEPLOY_KEY_PATH" -o StrictHostKeyChecking=no -P "$SSH_PORT" "${ALL_FILES[@]}" "$SSH_USER@$SSH_HOST:$PROJECT_PATH/"
 
 echo "🔗 Connecting to $SSH_USER@$SSH_HOST to deploy..."
 
