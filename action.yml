@@ -26,6 +26,9 @@ inputs:
     description: "Comma-separated list of files for Docker Compose (for standalone mode)"
     required: false
     default: "docker-compose.yml"
+  compose_pull:
+    description: "Instruct docker compose to pull down all images"
+    required: false
   stack_files:
     description: "Comma-separated list of files for Docker Swarm (for stack mode)"
     required: false
@@ -73,6 +76,7 @@ runs:
         SSH_KEY: ${{ inputs.ssh_key }}
         PROJECT_PATH: ${{ inputs.project_path }}
         COMPOSE_FILES: ${{ inputs.compose_files }}
+        COMPOSE_PULL: ${{ inputs.compose_pull }}
         STACK_FILES: ${{ inputs.stack_files }}
         EXTRA_FILES: ${{ inputs.extra_files }}
         DOCKER_PRUNE: ${{ inputs.docker_prune }}
