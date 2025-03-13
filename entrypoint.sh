@@ -148,20 +148,20 @@ if [ "$MODE" == "stack" ]; then
     fi
 else
     echo "🐳 Deploying using Docker Compose"
-    docker-compose pull
-    docker-compose down
-    docker-compose up -d
+    docker compose pull
+    docker compose down
+    docker compose up -d
 
     echo "✅ Verifying Compose services"
 
     # Verify all compose services are running
-    if docker-compose ps | grep -E "Exit|Restarting|Dead"; then
+    if docker compose ps | grep -E "Exit|Restarting|Dead"; then
         echo "❌ One or more services failed to start!"
-        docker-compose ps
+        docker compose ps
         exit 1
     else
         echo "✅ All services are running"
-        docker-compose ps
+        docker compose ps
     fi
 fi
 
