@@ -71,7 +71,7 @@ set -e
 echo "✅ Connected to $SSH_HOST"
 
 # Verify all uploaded files exist
-for file in "${ALL_FILES[@]}"; do
+for file in ${ALL_FILES[@]}; do
     filename=\$(basename "\$file")
     if [ ! -f "$PROJECT_PATH/\$filename" ]; then
         echo "❌ Missing file after upload: \$filename"
