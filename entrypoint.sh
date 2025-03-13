@@ -148,7 +148,9 @@ if [ "$MODE" == "stack" ]; then
     fi
 else
     echo "🐳 Deploying using Docker Compose"
-    docker compose pull
+    if [ -n "$COMPOSE_PULL" ]; then
+      docker compose pull
+    fi
     docker compose down
     docker compose up -d
 
